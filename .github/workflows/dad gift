@@ -1,36 +1,234 @@
-# This is a basic workflow to help you get started with Actions
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christmas Challenge</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+    }
+    .challenge {
+      margin: 20px auto;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: #fff;
+      max-width: 500px;
+      display: none;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Christmas Challenge</h1>
+  <button id="startButton" onclick="startChallenge()">Start</button>
 
-name: CI
+  <!-- Opening Message and Password Challenge -->
+  <div id="openingMessage" class="challenge">
+    <p>Welcome to Your Christmas Challenge!</p>
+    <p>Get ready to solve puzzles, answer trivia, and tackle riddles to unlock your Christmas gift. Good luck!</p>
+    <h2>Enter the Password</h2>
+    <input type="text" id="password" placeholder="Enter password">
+    <button onclick="checkPassword()">Submit</button>
+  </div>
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  <!-- Sudoku Challenge -->
+  <div id="sudokuChallenge" class="challenge">
+    <h2>Sudoku Challenge</h2>
+    <p>Complete the Sudoku below and press Submit.</p>
+    <table id="sudoku">
+      <tr>
+        <td><input maxlength="1"></td>
+        <td><input maxlength="1" value="3" readonly></td>
+        <td><input maxlength="1"></td>
+      </tr>
+      <tr>
+        <td><input maxlength="1"></td>
+        <td><input maxlength="1"></td>
+        <td><input maxlength="1" value="5" readonly></td>
+      </tr>
+      <tr>
+        <td><input maxlength="1"></td>
+        <td><input maxlength="1"></td>
+        <td><input maxlength="1"></td>
+      </tr>
+    </table>
+    <button onclick="checkSudoku()">Submit</button>
+  </div>
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  <!-- Trivia Challenge -->
+  <div id="triviaChallenge" class="challenge">
+    <h2>Trivia Questions</h2>
+    <form id="triviaForm">
+      <p>1. What was the original name of Montreal, given by Jacques Cartier in 1535?</p>
+      <input type="text" id="trivia1">
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+      <p>2. What is the oldest building (still standing) in Montreal?</p>
+      <input type="text" id="trivia2">
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      <p>3. Which country hosted the first-ever FIFA World Cup in 1930?</p>
+      <input type="text" id="trivia3">
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      <p>4. What NHL team was the first to win back-to-back Stanley Cups, and in what years?</p>
+      <input type="text" id="trivia4">
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      <p>5. Which college football team has the most national championships in U.S. history?</p>
+      <input type="text" id="trivia5">
+
+      <p>6. Which NHL team has the most Stanley Cup wins without being part of the Original Six?</p>
+      <input type="text" id="trivia6">
+
+      <p>7. Canada was the only Allied nation to have a beach solely assigned to it during the D-Day invasion. What was the name of the beach?</p>
+      <input type="text" id="trivia7">
+
+      <p>8. Lake Baikal is the world's deepest freshwater lake. In which country is it located?</p>
+      <input type="text" id="trivia8">
+
+      <p>9. What is the smallest province in Canada by both area and population?</p>
+      <input type="text" id="trivia9">
+
+      <p>10. Which Canadian general commanded the First Canadian Army during the Normandy campaign in World War II?</p>
+      <input type="text" id="trivia10">
+    </form>
+    <button onclick="checkTrivia()">Submit</button>
+  </div>
+
+  <!-- Riddle Challenge -->
+  <div id="riddleChallenge" class="challenge">
+    <h2>Solve These Riddles</h2>
+    <p>1. I’m tall when I’m young, and I’m short when I’m old. What am I?</p>
+    <input type="text" id="riddle1">
+    <p>2. How do eight eights add up to one thousand?</p>
+    <input type="text" id="riddle2">
+    <p>3. What has ten letters and starts with gas?</p>
+    <input type="text" id="riddle3">
+    <button onclick="checkRiddles()">Submit</button>
+  </div>
+
+  <!-- Final Puzzle Challenge -->
+  <div id="puzzleChallenge" class="challenge">
+    <h2>Final Puzzle</h2>
+    <p>Unscramble the message: <strong>"ruoy tsamrChi tfgi si a kfsearb/hncurb no em! tsuJ eht owt fo su!"</strong></p>
+    <input type="text" id="puzzleAnswer" placeholder="Enter your answer">
+    <button onclick="checkPuzzle()">Submit</button>
+  </div>
+
+  <script>
+    // Start Challenge
+    function startChallenge() {
+      document.getElementById("startButton").style.display = "none";
+      document.getElementById("openingMessage").style.display = "block";
+    }
+
+    // Password Challenge
+    function checkPassword() {
+      const password = document.getElementById("password").value.toLowerCase();
+      if (password === "granger") {
+        document.getElementById("openingMessage").style.display = "none";
+        document.getElementById("sudokuChallenge").style.display = "block";
+      } else {
+        alert("Incorrect password. Try again!");
+      }
+    }
+
+    // Sudoku Challenge
+    const sudokuSolution = [
+      [5, 3, 4],
+      [1, 6, 5],
+      [7, 2, 9],
+    ];
+
+    function checkSudoku() {
+      const inputs = document.querySelectorAll("#sudoku input");
+      let correct = true;
+
+      inputs.forEach((input, index) => {
+        const row = Math.floor(index / 3);
+        const col = index % 3;
+        if (input.value != sudokuSolution[row][col]) {
+          correct = false;
+        }
+      });
+
+      if (correct) {
+        alert("Well done! Moving to the next challenge.");
+        document.getElementById("sudokuChallenge").style.display = "none";
+        document.getElementById("triviaChallenge").style.display = "block";
+      } else {
+        alert("Some answers are incorrect. Try again!");
+      }
+    }
+
+    // Trivia Challenge
+    const triviaAnswers = {
+      trivia1: "hochelaga",
+      trivia2: "maison saint-gabriel",
+      trivia3: "uruguay",
+      trivia4: "montreal canadiens in 1916 and 1917",
+      trivia5: "yale university",
+      trivia6: "pittsburgh penguins",
+      trivia7: "juno beach",
+      trivia8: "russia",
+      trivia9: "prince edward island",
+      trivia10: "general harry crerar",
+    };
+
+    function checkTrivia() {
+      const form = document.getElementById("triviaForm");
+      let allCorrect = true;
+
+      for (const key in triviaAnswers) {
+        const input = form[key];
+        if (input.value.toLowerCase().trim() !== triviaAnswers[key]) {
+          allCorrect = false;
+          alert(`Question ${key[key.length - 1]} is incorrect!`);
+        }
+      }
+
+      if (allCorrect) {
+        alert("All answers are correct! Moving to the next challenge.");
+        document.getElementById("triviaChallenge").style.display = "none";
+        document.getElementById("riddleChallenge").style.display = "block";
+      }
+    }
+
+    // Riddle Challenge
+    function checkRiddles() {
+      const riddle1 = document.getElementById("riddle1").value.toLowerCase();
+      const riddle2 = document.getElementById("riddle2").value.toLowerCase();
+      const riddle3 = document.getElementById("riddle3").value.toLowerCase();
+
+      if (riddle1 === "candle" && riddle2 === "888+88+8+8+8=1000" && riddle3 === "an automobile") {
+        alert("You solved all the riddles! Get ready for the final challenge.");
+        document.getElementById("riddleChallenge").style.display = "none";
+        document.getElementById("puzzleChallenge").style.display = "block";
+      } else {
+        alert("One or more answers are incorrect. Try again!");
+      }
+    }
+
+    // Final Puzzle Challenge
+    function checkPuzzle() {
+      const answer = document.getElementById("puzzleAnswer").value.toLowerCase();
+      const correctAnswer = "your christmas gift is a breakfast/brunch on me! just the two of us!";
+
+      if (answer === correctAnswer) {
+        alert("Congratulations! You've completed the challenge and unlocked your gift!");
+        document.body.innerHTML = "<h1>Congratulations!</h1><p>You completed all the challenges!</p>";
+      } else {
+        alert("Incorrect answer. Try again!");
+      }
+    }
+  </script>
+</body>
+</html>
